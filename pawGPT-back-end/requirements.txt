@@ -1,0 +1,8 @@
+google-genai
+python-dotenv
+fastapi
+pinecone
+uvicorn
+pyjwt[crypto]
+passlib[bcrypt]
+asyncpg

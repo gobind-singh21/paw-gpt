@@ -4,11 +4,11 @@ from app.config import PUBLIC_KEY
 from datetime import datetime
 from datetime import timedelta
 from datetime import timezone
-from fastapi import Depends
+from fastapi import Cookie
 from fastapi import HTTPException
 from fastapi import status
+from fastapi import Request
 from fastapi.security import HTTPBearer
-from fastapi.security import HTTPAuthorizationCredentials
 from passlib.context import CryptContext
 
 import jwt
@@ -84,7 +84,8 @@ def verify_jwt_token(token: str, expected_type: str = "access") -> dict:
     except jwt.InvalidTokenError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=f"Invalid {expected_type}")
 
-async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security_bearer)) -> dict:
-    token = credentials.credentials
-    payload = verify_jwt_token(token, expected_type="access")
+async def get_current_user(request: Request, access_token: str = Cookie(None)) -> dict:
+    if not access_token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Authentication token missing. Please log in.")
+    payload = verify_jwt_token(access_token, expected_type="access")
     return {"username": payload.get("sub")}

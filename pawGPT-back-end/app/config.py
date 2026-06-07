@@ -10,7 +10,7 @@ DATABASE_URL = os.environ.get("DATABASE_URL", "postgresql://postgres:postgres@lo
 
 pc = Pinecone(api_key=os.environ.get("PINECONE_API_KEY"))
 INDEX_NAME = os.environ.get("PINECONE_INDEX_NAME")
-NAMESPACE_NAME = os.environ.get("PINECONE_NAMESPACE_NAME")
+NAMESPACE_NAME = os.environ.get("PINECONE_WORKSPACE_NAME")
 index = pc.Index(INDEX_NAME)
 
 ai_client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))

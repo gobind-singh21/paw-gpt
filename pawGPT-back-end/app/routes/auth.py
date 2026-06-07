@@ -17,7 +17,7 @@ import asyncpg
 
 router = APIRouter()
 
-class UserRegisterationRequest(BaseModel):
+class UserRegistrationRequest(BaseModel):
 	username: str
 	password: str
 
@@ -26,7 +26,7 @@ class LoginRequest(BaseModel):
     password: str
 
 @router.post("/register", status_code=status.HTTP_201_CREATED)
-async def register_user(user_data: UserRegisterationRequest, request: Request):
+async def register_user(user_data: UserRegistrationRequest, request: Request):
     pool: asyncpg.Pool = request.app.state.db_pool
     hashed_pwd = PasswordManager.hash_password(user_data.password)
     try:
